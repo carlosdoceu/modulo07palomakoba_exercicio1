@@ -1,5 +1,7 @@
 package com.example.conversormoedas;
 
+import com.example.conversormoedas.util.DriverFactory;
+
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import junit.framework.TestCase;
@@ -13,20 +15,13 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class TesteAutomatizado {
 
-    private AndroidDriver driver;
+
+    private AndroidDriver<MobileElement> driver;
 
     @Before
     public void setUp() throws MalformedURLException {
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-        desiredCapabilities.setCapability("platformName", "Android");
-        desiredCapabilities.setCapability("deviceName", "LGK220AIQGJ7BI");
-        desiredCapabilities.setCapability("automationName", "uiautomator2");
-        desiredCapabilities.setCapability("appPackage", "com.example.conversormoedas");
-        desiredCapabilities.setCapability("appActivity", "com.example.conversormoedas.MainActivity");
+        driver = DriverFactory.getDriver();
 
-        URL remoteUrl = new URL("http://localhost:4723/wd/hub");
-
-        driver = new AndroidDriver(remoteUrl, desiredCapabilities);
     }
 
     @Test
@@ -50,8 +45,11 @@ public class TesteAutomatizado {
         Assert.assertEquals("valor em dolares: \n0,02", el3.getText());
     }
 
+
     @After
     public void tearDown() {
-        driver.quit();
+        DriverFactory.finalizarDriver();
     }
+
+
 }
